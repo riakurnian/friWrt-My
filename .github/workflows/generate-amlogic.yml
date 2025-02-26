@@ -300,6 +300,14 @@ jobs:
           ls -l
           echo "status=success" >> $GITHUB_OUTPUT
 
+      - name: Add changelog info and set tag name to new release
+        if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()
+        id: changelog
+        shell: bash
+        run: |
+          cd $WORKING_DIR
+          echo "RELEASE_TAG=amlogic-${{ env.openwrt_board }}-$BASE-$BRANCH-$DATEMONTH$([ "$REVISION_TAG" == "true" ] && echo -rev)" >> $GITHUB_ENV
+
       - name: Upload Firmware to Release
         uses: svenstaro/upload-release-action@v2
         if: ${{ steps.prep_upload.outputs.status }} == 'success' && !cancelled()
