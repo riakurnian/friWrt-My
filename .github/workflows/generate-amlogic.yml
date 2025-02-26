@@ -180,7 +180,15 @@ jobs:
           elif [ "$TARGET" == "hg680p" ] || [ "$TARGET" == "b860h" ]; then
             echo "openwrt_board=s905x" >> $GITHUB_ENV
           fi
-          if [ "$(echo "${RELEASE_BRANCH#*:}" | cut -d'.' -f1)" == "23" ] || "$(echo "${RELEASE_BRANCH#*:}" | cut -d'.' -f1)" == "24"; then
+          if [ "$(echo "${RELEASE_BRANCH#*:}" | cut -d'.' -f1)" == "23" ]; then
+            echo "PROFILE=generic" >> $GITHUB_ENV
+            echo "TARGET_SYSTEM=armsr/armv8" >> $GITHUB_ENV
+            echo "TARGET_NAME=armsr-armv8" >> $GITHUB_ENV
+            TARGET_NAME="armsr-armv8"
+            echo "ARCH_1=arm64" >> $GITHUB_ENV
+            echo "ARCH_2=aarch64" >> $GITHUB_ENV
+            echo "ARCH_3=aarch64_generic" >> $GITHUB_ENV
+          elif [ "$(echo "${RELEASE_BRANCH#*:}" | cut -d'.' -f1)" == "24" ]; then
             echo "PROFILE=generic" >> $GITHUB_ENV
             echo "TARGET_SYSTEM=armsr/armv8" >> $GITHUB_ENV
             echo "TARGET_NAME=armsr-armv8" >> $GITHUB_ENV
