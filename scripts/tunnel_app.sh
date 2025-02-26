@@ -4,17 +4,14 @@
 neko_download="$(curl -s https://api.github.com/repos/nosignals/neko/releases/latest | jq -r '.assets[] | select(.name | endswith("_23_05.ipk")) | .browser_download_url')"
 
 # Nikki
-nikki_api="https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/install.sh"
 nikki_file="luci-app-nikki"
 nikki_file_download="https://github.com/nikkinikki-org/OpenWrt-nikki/releases/latest/download/nikki_aarch64_generic-openwrt-24.10.tar.gz"
 
 # Openclash
-openclash_api="https://api.github.com/repos/vernesong/OpenClash/releases"
 openclash_file="luci-app-openclash"
-openclash_download="$(curl -s ${openclash_api} | grep "browser_download_url" | grep -oE "https.*${openclash_file}*.ipk" | head -n 1)"
+openclash_file_down="https://github.com/vernesong/OpenClash/releases/latest/download/luci-app-openclash_0.46.075_all.ipk"
 
 # Passwall
-passwall_api="https://api.github.com/repos/xiaorouji/openwrt-passwall/releases"
 passwall_file="luci-app-passwall"
 passwall_download="https://github.com/xiaorouji/openwrt-passwall/releases/latest/download/luci-23.05_luci-app-passwall_25.2.12_all.ipk"
 passwall_package_file="passwall_packages_ipk_aarch64_generic.zip"
