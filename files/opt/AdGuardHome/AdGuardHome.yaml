@@ -13,7 +13,7 @@ theme: auto
 dns:
   bind_hosts:
     - 0.0.0.0
-  port: 53
+  port: 5353
   anonymize_client_ip: false
   ratelimit: 50
   ratelimit_subnet_len_ipv4: 24
@@ -21,9 +21,8 @@ dns:
   ratelimit_whitelist: []
   refuse_any: true
   upstream_dns:
-    - '[/pool.ntp.org/]1.1.1.1'
-    - '[/id.pool.ntp.org/]1.1.1.1'
-    - https://dns.cloudflare.com/dns-query
+    - 1.1.1.1
+    - 1.0.0.1
   upstream_dns_file: ""
   bootstrap_dns:
     - 1.1.1.1
@@ -122,8 +121,8 @@ filters:
     id: 1702484669
 whitelist_filters: []
 user_rules:
-  - '@@||pagead2.googlesyndication.com^$important'
-  - '@@||googleadservices.com^$important'
+  - "@@||pagead2.googlesyndication.com^$important"
+  - "@@||googleadservices.com^$important"
   - ""
 dhcp:
   enabled: false

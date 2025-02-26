@@ -1,6 +1,6 @@
 #!/bin/sh
 
-exec > /root/setup.log 2>&1
+exec >/root/setup.log 2>&1
 
 # dont remove!
 echo "Installed Time: $(date '+%A, %d %B %Y %T')"
@@ -16,11 +16,15 @@ elif grep -q "OpenWrt" /etc/openwrt_release; then
   sed -i "s/\(DISTRIB_DESCRIPTION='OpenWrt [0-9]*\.[0-9]*\.[0-9]*\).*'/\1'/g" /etc/openwrt_release
   echo Branch version: "$(grep 'DISTRIB_DESCRIPTION=' /etc/openwrt_release | awk -F"'" '{print $2}')"
 fi
-echo "Tunnel Installed: $(opkg list-installed | grep -e luci-app-openclash -e luci-app-neko -e luci-app-passwall | awk '{print $1}' | tr '\n' ' ')"
+echo "Tunnel Installed: $(opkg list-installed | grep -e luci-app-neko -e luci-app-openclash -e luci-app-passwall | awk '{print $1}' | tr '\n' ' ')"
 echo "###############################################"
 
 # Set login root password
-(echo "root"; sleep 1; echo "root") | passwd > /dev/null
+(
+  echo "root"
+  sleep 1
+  echo "root"
+) | passwd >/dev/null
 
 # Set hostname and Timezone to Asia/Jakarta
 echo "Setup NTP Server and Time Zone to Asia/Jakarta"
@@ -28,8 +32,7 @@ uci set system.@system[0].hostname='OpenWRT'
 uci set system.@system[0].timezone='WIB-7'
 uci set system.@system[0].zonename='Asia/Jakarta'
 uci -q delete system.ntp.server
-uci add_list system.ntp.server="pool.ntp.org"
-uci add_list system.ntp.server="id.pool.ntp.org"
+uci add_list system.ntp.server="time.cloudflare.com"
 uci add_list system.ntp.server="time.google.com"
 uci commit system
 
@@ -37,7 +40,7 @@ uci commit system
 chmod +x /usr/lib/ModemManager/connection.d/10-report-down
 echo "Setup WAN and LAN Interface"
 uci set network.lan.ipaddr="192.168.1.1"
-uci set network.wan=interface 
+uci set network.wan=interface
 uci set network.wan.proto='modemmanager'
 uci set network.wan.device='/sys/devices/platform/scb/fd500000.pcie/pci0000:00/0000:00:00.0/0000:01:00.0/usb2/2-1'
 uci set network.wan.apn='internet'
@@ -82,8 +85,8 @@ if iw dev | grep -q Interface; then
       sed -i '/exit 0/i sleep 10 && wifi up' /etc/rc.local
     fi
     if ! grep -q "wifi up" /etc/crontabs/root; then
-      echo "# remove if you dont use wireless" >> /etc/crontabs/root
-      echo "0 */12 * * * wifi down && sleep 5 && wifi up" >> /etc/crontabs/root
+      echo "# remove if you dont use wireless" >>/etc/crontabs/root
+      echo "0 */12 * * * wifi down && sleep 5 && wifi up" >>/etc/crontabs/root
       service cron restart
     fi
   fi
@@ -93,15 +96,9 @@ fi
 
 # custom repo and Disable opkg signature check
 echo "Setup custom repo using MyOPKG Repo"
-if grep -qE '^VERSION_ID="21' /etc/os-release; then
-  sed -i 's/option check_signature/# option check_signature/g' /etc/opkg.conf
-  echo "src/gz custom_generic https://raw.githubusercontent.com/lrdrdn/my-opkg-repo/21.02/generic" >> /etc/opkg/customfeeds.conf
-  echo "src/gz custom_arch https://raw.githubusercontent.com/lrdrdn/my-opkg-repo/21.02/$(grep "OPENWRT_ARCH" /etc/os-release | awk -F '"' '{print $2}')" >> /etc/opkg/customfeeds.conf
-else
-  sed -i 's/option check_signature/# option check_signature/g' /etc/opkg.conf
-  echo "src/gz custom_generic https://raw.githubusercontent.com/lrdrdn/my-opkg-repo/main/generic" >> /etc/opkg/customfeeds.conf
-  echo "src/gz custom_arch https://raw.githubusercontent.com/lrdrdn/my-opkg-repo/main/$(grep "OPENWRT_ARCH" /etc/os-release | awk -F '"' '{print $2}')" >> /etc/opkg/customfeeds.conf
-fi
+sed -i 's/option check_signature/# option check_signature/g' /etc/opkg.conf
+echo "src/gz custom_generic https://raw.githubusercontent.com/lrdrdn/my-opkg-repo/main/generic" >>/etc/opkg/customfeeds.conf
+echo "src/gz custom_arch https://raw.githubusercontent.com/lrdrdn/my-opkg-repo/main/$(grep "OPENWRT_ARCH" /etc/os-release | awk -F '"' '{print $2}')" >>/etc/opkg/customfeeds.conf
 
 # setting firewall for samba4
 echo "Setup SAMBA4 firewall"
@@ -183,7 +180,7 @@ chmod +x /usr/bin/openclash.sh
 chmod +x /usr/bin/cek_sms.sh
 
 # configurating openclash
-if opkg list-installed | grep luci-app-openclash > /dev/null; then
+if opkg list-installed | grep luci-app-openclash >/dev/null; then
   echo "Openclash Detected!"
   echo "Start Patch YACD and Openclash Core"
   if [ -d "/usr/share/openclash/ui/yacd.new" ]; then
@@ -209,13 +206,13 @@ else
 fi
 
 # configurating neko
-if opkg list-installed | grep luci-app-neko > /dev/null; then
+if opkg list-installed | grep luci-app-neko >/dev/null; then
   chmod +x /etc/neko/core/mihomo
 fi
 
 # adding new line for enable i2c oled display
 if grep -q "Raspberry Pi 4\|Raspberry Pi 3" /proc/cpuinfo; then
-  echo -e "\ndtparam=i2c1=on\ndtparam=spi=on\ndtparam=i2s=on" >> /boot/config.txt
+  echo -e "\ndtparam=i2c1=on\ndtparam=spi=on\ndtparam=i2s=on" >>/boot/config.txt
 fi
 
 # enable adguardhome

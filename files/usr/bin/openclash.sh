@@ -17,7 +17,13 @@ check_and_install_packages() {
     for package in "${required_packages[@]}"; do
         if ! opkg list-installed | grep -q "^$package -"; then
             echo -e "${INFO} Package $package to initialize setup not found. Installing..."
-            [ "$opkg_updated" = false ] && { opkg update || { echo -e "${ERROR} Failed to update opkg!"; exit 1; }; opkg_updated=true; }
+            [ "$opkg_updated" = false ] && {
+                opkg update || {
+                    echo -e "${ERROR} Failed to update opkg!"
+                    exit 1
+                }
+                opkg_updated=true
+            }
             opkg install $package
         else
             echo -e "${INFO} $package Installed!."
@@ -33,11 +39,23 @@ install_openclash_depands() {
     fi
     if [ -n "$(command -v fw4)" ]; then
         echo -e "${INFO} Firewall 4 nftables detected"
-        [ "$opkg_updated" = false ] && { opkg update || { echo -e "${ERROR} Failed to update opkg!"; exit 1; }; opkg_updated=true; }
+        [ "$opkg_updated" = false ] && {
+            opkg update || {
+                echo -e "${ERROR} Failed to update opkg!"
+                exit 1
+            }
+            opkg_updated=true
+        }
         opkg install coreutils-nohup bash dnsmasq-full curl ca-certificates ipset ip-full libcap libcap-bin ruby ruby-yaml kmod-tun kmod-inet-diag unzip kmod-nft-tproxy luci-compat luci luci-base
     else
         echo -e "${INFO} Firewall 3 iptables detected"
-        [ "$opkg_updated" = false ] && { opkg update || { echo -e "${ERROR} Failed to update opkg!"; exit 1; }; opkg_updated=true; }
+        [ "$opkg_updated" = false ] && {
+            opkg update || {
+                echo -e "${ERROR} Failed to update opkg!"
+                exit 1
+            }
+            opkg_updated=true
+        }
         opkg install coreutils-nohup bash iptables dnsmasq-full curl ca-certificates ipset ip-full iptables-mod-tproxy iptables-mod-extra libcap libcap-bin ruby ruby-yaml kmod-tun kmod-inet-diag unzip luci-compat luci luci-base
     fi
 }
@@ -47,7 +65,13 @@ install_openclash() {
     if wget -q -N -P /root "${openclash_file_down}"; then
         echo -e "${SUCCESS} The [ $(basename "${openclash_file_down}") ] is downloaded successfully."
         echo -e "${INFO} Start installing [ ${openclash_file} ]"
-        [ "$opkg_updated" = false ] && { opkg update || { echo -e "${ERROR} Failed to update opkg!"; exit 1; }; opkg_updated=true; }
+        [ "$opkg_updated" = false ] && {
+            opkg update || {
+                echo -e "${ERROR} Failed to update opkg!"
+                exit 1
+            }
+            opkg_updated=true
+        }
         if opkg install /root/*openclash*.ipk; then
             patch_openclash
             [ "${?}" -eq "0" ] && echo -e "${SUCCESS} Openclash successfully installed and patched." || echo -e "${ERROR} Failed to apply patch! Check for errors during patching."
@@ -105,27 +129,27 @@ uninstall_openclash() {
 
 setup() {
     case "$1" in
-        reinstall)
-            uninstall_openclash
-            install_openclash
-            ;;
-        install-core)
-            install_openclash_core
-            ;;
-        full-install)
-            install_openclash_depands
-            install_openclash
-            install_openclash_core
-            ;;
-        patch-only)
-            patch_openclash
-            ;;
-        uninstall)
-            uninstall_openclash
-            ;;
-        *)
-            echo -e "${ERROR} Invalid argument. Usage: $0 {full-install|reinstall|install-core|patch-only|uninstall}"
-            ;;
+    reinstall)
+        uninstall_openclash
+        install_openclash
+        ;;
+    install-core)
+        install_openclash_core
+        ;;
+    full-install)
+        install_openclash_depands
+        install_openclash
+        install_openclash_core
+        ;;
+    patch-only)
+        patch_openclash
+        ;;
+    uninstall)
+        uninstall_openclash
+        ;;
+    *)
+        echo -e "${ERROR} Invalid argument. Usage: $0 {full-install|reinstall|install-core|patch-only|uninstall}"
+        ;;
     esac
 }
 

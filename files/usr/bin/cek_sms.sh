@@ -25,7 +25,7 @@ else
         message=$(mmcli -m "$modem_id" --sms "$sms_id")
         if [ -n "$message" ]; then
             echo "$message" | tee temp_message.log
-            cat "$log_file" >> temp_message.log && mv temp_message.log "$log_file"
+            cat "$log_file" >>temp_message.log && mv temp_message.log "$log_file"
         fi
     done
 fi

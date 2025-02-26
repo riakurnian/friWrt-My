@@ -55,7 +55,7 @@ else
 fi
 
 # custom script files urls
-echo "Downloading custom script" 
+echo "Downloading custom script"
 sync_time="https://raw.githubusercontent.com/frizkyiman/auto-sync-time/main/sbin/sync_time.sh"
 clock="https://raw.githubusercontent.com/frizkyiman/auto-sync-time/main/usr/bin/clock"
 repair_ro="https://raw.githubusercontent.com/frizkyiman/fix-read-only/main/install2.sh"
