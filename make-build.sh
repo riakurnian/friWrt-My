@@ -40,21 +40,17 @@ PACKAGES+=" modeminfo luci-app-modeminfo atinout modemband luci-app-modemband lu
 
 # Tunnel option
 NEKO="bash kmod-tun php8 php8-cgi luci-app-neko"
-NIKKI+="nikki luci-app-nikki"
 OPENCLASH+="coreutils-nohup bash dnsmasq-full curl ca-certificates ipset ip-full libcap libcap-bin ruby ruby-yaml kmod-tun kmod-inet-diag unzip kmod-nft-tproxy luci-compat luci luci-base luci-app-openclash"
 PASSWALL+="chinadns-ng resolveip dns2socks dns2tcp ipt2socks microsocks tcping xray-core xray-plugin luci-app-passwall"
 
 if [ "$2" == "neko" ]; then
     PACKAGES+=" $NEKO"
-elif [ "$2" == "nikki" ]; then
-    PACKAGES+=" $NIKKI"
 elif [ "$2" == "openclash" ]; then
     PACKAGES+=" $OPENCLASH"
 elif [ "$2" == "passwall" ]; then
     PACKAGES+=" $PASSWALL"
-elif [ "$2" == "neko-nikki-openclash-passwall" ]; then
+elif [ "$2" == "neko-openclash-passwall" ]; then
     PACKAGES+=" $NEKO"
-    PACKAGES+=" $NIKKI"
     PACKAGES+=" $OPENCLASH"
     PACKAGES+=" $PASSWALL"
 fi

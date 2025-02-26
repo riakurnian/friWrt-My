@@ -72,14 +72,13 @@ on:
       tunnel:
         description: "Select VPN Client app"
         required: true
-        default: "neko-nikki-openclash-passwall"
+        default: "neko-openclash-passwall"
         type: choice
         options:
           - neko
-          - nikki
           - openclash
           - passwall
-          - neko-nikki-openclash-passwall
+          - neko-openclash-passwall
       clean:
         description: "Do 'make clean' for each run"
         required: false
@@ -243,9 +242,9 @@ jobs:
           bash scripts/misc.sh
           echo "VPN Client: $TUNNEL"
           bash scripts/tunnel_app.sh $TUNNEL
-          if [ "$TUNNEL" = "openclash" ] || [ "$TUNNEL" = "neko-nikki-openclash-passwall" ]; then bash scripts/clash-core.sh; fi
-          if [ "$TUNNEL" = "neko" ] || [ "$TUNNEL" = "neko-nikki-openclash-passwall" ]; then bash scripts/neko_core.sh; fi
-          if [ "$TUNNEL" = "neko-nikki-openclash-passwall" ]; then bash scripts/clash-core.sh; bash scripts/neko_core.sh; fi
+          if [ "$TUNNEL" = "openclash" ] || [ "$TUNNEL" = "neko-openclash-passwall" ]; then bash scripts/clash-core.sh; fi
+          if [ "$TUNNEL" = "neko" ] || [ "$TUNNEL" = "neko-openclash-passwall" ]; then bash scripts/neko_core.sh; fi
+          if [ "$TUNNEL" = "neko-openclash-passwall" ]; then bash scripts/clash-core.sh; bash scripts/neko_core.sh; fi
           echo "Total custom packages: $(find packages -type f -name "*.ipk" | wc -l)"
           ls packages
           echo "status=success" >> $GITHUB_OUTPUT
