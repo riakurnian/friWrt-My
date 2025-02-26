@@ -8,8 +8,9 @@ nikki_file="luci-app-nikki"
 nikki_download="https://github.com/nikkinikki-org/OpenWrt-nikki/releases/latest/download/nikki_aarch64_generic-openwrt-24.10.tar.gz"
 
 # Openclash
+openclash_api="https://api.github.com/repos/vernesong/OpenClash/releases"
 openclash_file="luci-app-openclash"
-openclash_download="https://github.com/vernesong/OpenClash/releases/latest/download/luci-app-openclash_0.46.075_all.ipk"
+openclash_download="$(curl -s ${openclash_api} | grep "browser_download_url" | grep -oE "https.*${openclash_file}*.ipk" | head -n 1)"
 
 # Passwall
 passwall_file="luci-app-passwall"
