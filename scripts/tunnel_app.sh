@@ -34,7 +34,7 @@ elif [ "$1" == "passwall" ]; then
     echo "Downloading Passwall packages"
     wget "${passwall_download}" -nv -P packages
     wget "${passwall_package_download}" -nv -P packages
-    unzip -qq "${passwall_package_file}" -d packages
+    unzip -qq "packages/${passwall_package_file}" -d packages
 elif [ "$1" == "neko-nikki-openclash-passwall" ]; then
     echo "Downloading Neko packages"
     wget ${neko_download} -nv -P packages
@@ -46,7 +46,7 @@ elif [ "$1" == "neko-nikki-openclash-passwall" ]; then
     echo "Downloading Passwall packages"
     wget "${passwall_download}" -nv -P packages
     wget "${passwall_package_download}" -nv -P packages
-    unzip -qq "${passwall_package_file}" -d packages
+    unzip -qq "packages/${passwall_package_file}" -d packages
 fi
 if [ "$?" -ne 0 ]; then
     echo "Error: Download or extraction failed."
