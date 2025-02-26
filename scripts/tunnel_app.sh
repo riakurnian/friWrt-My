@@ -11,7 +11,7 @@ nikki_file_download="https://github.com/nikkinikki-org/OpenWrt-nikki/releases/la
 # Openclash
 openclash_api="https://api.github.com/repos/vernesong/OpenClash/releases"
 openclash_file="luci-app-openclash"
-openclash_download="$(curl -s ${openclash_api} | grep "browser_download_url" | grep -oE "https.*${openclash_file}.*.ipk" | head -n 1)"
+openclash_download="$(curl -s ${openclash_api} | grep "browser_download_url" | grep -oE "https.*${openclash_file}*.ipk" | head -n 1)"
 
 # Passwall
 passwall_api="https://api.github.com/repos/xiaorouji/openwrt-passwall/releases"
