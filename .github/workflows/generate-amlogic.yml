@@ -35,16 +35,18 @@ on:
       openwrt_kernel:
         description: "Select kernel version"
         required: false
-        default: "5.15.1_6.6.5"
+        default: "6.1.1_6.12.1"
         type: choice
         options:
-          - 5.4.1_5.10.1
-          - 5.15.1_6.6.5
+          - 5.4.1_5.15.1
+          - 6.1.1_6.12.1
+          - 5.4.1_6.12.1
           - 5.4.1
           - 5.10.1
           - 5.15.1
           - 6.1.1
-          - 6.6.5
+          - 6.6.1
+          - 6.12.1
       auto_kernel:
         description: "Auto use the latest kernel"
         required: false
@@ -266,7 +268,7 @@ jobs:
         if: ${{ steps.imagebuilder.outputs.status }} == 'success' && !cancelled()
         run: |
           cd $WORKING_DIR
-          rm -rf $(ls . | grep -vE "^compiled_images$|^changelog_amlogic.md$" | xargs) 2>/dev/null
+          rm -rf $(ls . | grep -vE "^compiled_images$| xargs) 2>/dev/null
           df -hT ${PWD}
 
       - name: Packaging ${{ inputs.release_branch }}
@@ -288,8 +290,8 @@ jobs:
           cd $WORKING_DIR
           for file in compiled_images/*rootfs.tar.gz; do mv "$file" ${{ env.PACKAGED_OUTPUTPATH }}; done
           cd ${{ env.PACKAGED_OUTPUTPATH }}
-          for file in *.img.gz; do mv "$file" fri_$(basename "$file" .img.gz)$( echo "_$TUNNEL" )$([ "$REVISION_TAG" == "true" ] && echo _rev).img.gz; done
-          for file in *rootfs.tar.gz; do mv "$file" fri_$(basename "$file" .tar.gz)$( echo "_$TUNNEL" )$([ "$REVISION_TAG" == "true" ] && echo _rev).tar.gz; done
+          for file in *.img.gz; do mv "$file" $(basename "$file" .img.gz)$( echo "_$TUNNEL" )$([ "$REVISION_TAG" == "true" ] && echo _rev).img.gz; done
+          for file in *rootfs.tar.gz; do mv "$file" $(basename "$file" .tar.gz)$( echo "_$TUNNEL" )$([ "$REVISION_TAG" == "true" ] && echo _rev).tar.gz; done
           if wget -q https://github.com/arakurumi/friWrt-MyWrtBuilder/releases/download/amlogic-${{ env.openwrt_board }}-${{ env.BASE }}-${{ env.BRANCH }}-${{ env.DATEMONTH }}/sha256sums; then
              rm -r *.sha && sha256sum *.gz >> sha256sums
           else
@@ -297,19 +299,6 @@ jobs:
           fi
           ls -l
           echo "status=success" >> $GITHUB_OUTPUT
-
-      - name: Add changelog info and set tag name to new release
-        if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()
-        id: changelog
-        shell: bash
-        run: |
-          cd $WORKING_DIR
-          echo "RELEASE_TAG=amlogic-${{ env.openwrt_board }}-$BASE-$BRANCH-$DATEMONTH$([ "$REVISION_TAG" == "true" ] && echo -rev)" >> $GITHUB_ENV
-          r=$(awk '/^\*\*Changelog\*\*/ {if(found) exit; found=1} found' changelog_amlogic.md)
-          r="${r//'%'/'%25'}"
-          r="${r//$'\n'/'%0A'}"
-          r="${r//$'\r'/'%0D'}"  
-          echo "CHANGELOG=$r" >> $GITHUB_OUTPUT
 
       - name: Upload Firmware to Release
         uses: svenstaro/upload-release-action@v2
@@ -327,8 +316,6 @@ jobs:
             ![GitHub Downloads (all assets, specific tag)](https://img.shields.io/github/downloads/arakurumi/friWrt-MyWrtBuilder/${{ env.RELEASE_TAG }}/total?style=for-the-badge&logo=Openwrt)
             ### friWrt ${{ env.BASE }}-${{ env.BRANCH }} Image information
             Build date: ${{ env.DATETIME }}
-
-            ${{ steps.changelog.outputs.CHANGELOG }}
 
             See [here](https://github.com/arakurumi/friWrt-MyWrtBuilder?tab=readme-ov-file#firmware-details) for more detail feature and other information.
             - Default IP: 192.168.1.1
