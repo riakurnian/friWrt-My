@@ -8,7 +8,6 @@ echo "###############################################"
 echo "Processor: $(ubus call system board | grep '\"system\"' | sed 's/ \+/ /g' | awk -F'\"' '{print $4}')"
 echo "Device Model: $(ubus call system board | grep '\"model\"' | sed 's/ \+/ /g' | awk -F'\"' '{print $4}')"
 echo "Device Board: $(ubus call system board | grep '\"board_name\"' | sed 's/ \+/ /g' | awk -F'\"' '{print $4}')"
-sed -i "s#_('Firmware Version'),(L.isObject(boardinfo.release)?boardinfo.release.description+' / ':'')+(luciversion||''),#_('Firmware Version'),(L.isObject(boardinfo.release)?boardinfo.release.description+' build by friWrt [Ouc3kNF6]':''),#g" /www/luci-static/resources/view/status/include/10_system.js
 if grep -q "ImmortalWrt" /etc/openwrt_release; then
   sed -i "s/\(DISTRIB_DESCRIPTION='ImmortalWrt [0-9]*\.[0-9]*\.[0-9]*\).*'/\1'/g" /etc/openwrt_release
   echo Branch version: "$(grep 'DISTRIB_DESCRIPTION=' /etc/openwrt_release | awk -F"'" '{print $2}')"
@@ -40,18 +39,7 @@ uci commit system
 chmod +x /usr/lib/ModemManager/connection.d/10-report-down
 echo "Setup WAN and LAN Interface"
 uci set network.lan.ipaddr="192.168.1.1"
-uci set network.wan=interface
-uci set network.wan.proto='modemmanager'
-uci set network.wan.device='/sys/devices/platform/scb/fd500000.pcie/pci0000:00/0000:00:00.0/0000:01:00.0/usb2/2-1'
-uci set network.wan.apn='internet'
-uci set network.wan.auth='none'
-uci set network.wan.iptype='ipv4'
-uci set network.tethering=interface
-uci set network.tethering.proto='dhcp'
-uci set network.tethering.device='usb0'
 uci commit network
-uci set firewall.@zone[1].network='wan tethering'
-uci commit firewall
 
 # configure ipv6
 uci -q delete dhcp.lan.dhcpv6

@@ -53,7 +53,10 @@ elif [ "$2" == "openclash" ]; then
 elif [ "$2" == "passwall" ]; then
     PACKAGES+=" $PASSWALL"
 elif [ "$2" == "neko-nikki-openclash-passwall" ]; then
-    PACKAGES+= " $NEKO $NIKKI $OPENCLASH $PASSWALL"
+    PACKAGES+=" $NEKO"
+    PACKAGES+=" $NIKKI"
+    PACKAGES+=" $OPENCLASH"
+    PACKAGES+=" $PASSWALL"
 fi
 
 # Adguardhome
@@ -62,9 +65,6 @@ PACKAGES+=" luci-app-adguardhome ca-certificates ca-bundle tar unzip bind-tools"
 # NAS and Hard disk tools
 PACKAGES+=" luci-app-diskman luci-app-hd-idle luci-app-disks-info smartmontools kmod-usb-storage kmod-usb-storage-uas ntfs-3g"
 PACKAGES+=" samba4-server luci-app-samba4 aria2 ariang luci-app-aria2 luci-app-tinyfm"
-
-# Docker
-PACKAGES+=" docker docker-compose dockerd luci-app-dockerman"
 
 # Bandwidth And Network Monitoring
 PACKAGES+=" internet-detector luci-app-internet-detector internet-detector-mod-modem-restart nlbwmon luci-app-nlbwmon vnstat2 vnstati2 luci-app-vnstat2 luci-app-netmonitor"
@@ -96,10 +96,6 @@ PACKAGES+=" luci-app-poweroff luci-app-log-viewer luci-app-ramfree"
 # Misc and some custom .ipk files
 if [ "${RELEASE_BRANCH%:*}" == "openwrt" ]; then
     PACKAGES+=" luci-app-temp-status luci-app-cpu-status-mini"
-fi
-
-if [ "$(echo "$BRANCH" | cut -d'.' -f1)" == "21" ]; then
-    PACKAGES+=" iptables-mod-ipopt"
 fi
 
 if [ "$1" == "rpi-4" ]; then
