@@ -5,11 +5,11 @@ neko_download="$(curl -s https://api.github.com/repos/nosignals/neko/releases/la
 
 # Nikki
 nikki_file="luci-app-nikki"
-nikki_file_download="https://github.com/nikkinikki-org/OpenWrt-nikki/releases/latest/download/nikki_aarch64_generic-openwrt-24.10.tar.gz"
+nikki_download="https://github.com/nikkinikki-org/OpenWrt-nikki/releases/latest/download/nikki_aarch64_generic-openwrt-24.10.tar.gz"
 
 # Openclash
 openclash_file="luci-app-openclash"
-openclash_file_down="https://github.com/vernesong/OpenClash/releases/latest/download/luci-app-openclash_0.46.075_all.ipk"
+openclash_download="https://github.com/vernesong/OpenClash/releases/latest/download/luci-app-openclash_0.46.075_all.ipk"
 
 # Passwall
 passwall_file="luci-app-passwall"
@@ -22,7 +22,7 @@ if [ "$1" == "neko" ]; then
     wget ${neko_download} -nv -P packages
 elif [ "$1" == "nikki" ]; then
     echo "Downloading Nikki packages"
-    wget ${nikki_file_download} -nv -P packages
+    wget ${nikki_download} -nv -P packages
     tar -xf packages/nikki_aarch64_generic-openwrt-24.10.tar.gz --wildcards '*.ipk'
 elif [ "$1" == "openclash" ]; then
     echo "Downloading Openclash packages"
@@ -36,7 +36,7 @@ elif [ "$1" == "neko-nikki-openclash-passwall" ]; then
     echo "Downloading Neko packages"
     wget ${neko_download} -nv -P packages
     echo "Downloading Nikki packages"
-    wget ${nikki_file_download} -nv -P packages
+    wget ${nikki_download} -nv -P packages
     tar -xf packages/nikki_aarch64_generic-openwrt-24.10.tar.gz --wildcards '*.ipk'
     echo "Downloading Openclash packages"
     wget ${openclash_download} -nv -P packages
