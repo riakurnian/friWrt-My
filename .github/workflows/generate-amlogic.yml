@@ -69,16 +69,6 @@ on:
           - flippy
           - dev
           - beta
-      tunnel:
-        description: "Select VPN Client app"
-        required: true
-        default: "neko-openclash-passwall"
-        type: choice
-        options:
-          - neko
-          - openclash
-          - passwall
-          - neko-openclash-passwall
       clean:
         description: "Do 'make clean' for each run"
         required: false
