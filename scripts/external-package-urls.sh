@@ -25,12 +25,12 @@
         "modemmanager|https://downloads.openwrt.org/releases/packages-24.10/$ARCH_3/packages"
         "python3-speedtest-cli|https://downloads.openwrt.org/releases/packages-$(echo "$BRANCH" | cut -d'.' -f1-2)/$ARCH_3/packages"
         "sms-tool|https://downloads.openwrt.org/snapshots/packages/$ARCH_3/packages"
-        #"libmbim|https://downloads.openwrt.org/snapshots/packages/$ARCH_3/packages"
-        #"libqmi|https://downloads.openwrt.org/snapshots/packages/$ARCH_3/packages"
-        #"luci-proto-mbim|https://downloads.openwrt.org/snapshots/packages/$ARCH_3/luci"
-        #"luci-proto-modemmanager|https://downloads.openwrt.org/snapshots/packages/$ARCH_3/luci"
-        #"modemmanager|https://downloads.openwrt.org/snapshots/packages/$ARCH_3/packages"
-        #"sms-tool|https://downloads.openwrt.org/releases/packages-24.10/$ARCH_3/packages"
+        "libmbim|https://downloads.openwrt.org/snapshots/packages/$ARCH_3/packages"
+        "libqmi|https://downloads.openwrt.org/snapshots/packages/$ARCH_3/packages"
+        "luci-proto-mbim|https://downloads.openwrt.org/snapshots/packages/$ARCH_3/luci"
+        "luci-proto-modemmanager|https://downloads.openwrt.org/snapshots/packages/$ARCH_3/luci"
+        "modemmanager|https://downloads.openwrt.org/snapshots/packages/$ARCH_3/packages"
+        "sms-tool|https://downloads.openwrt.org/releases/packages-24.10/$ARCH_3/packages"
     )
 
     echo "###########################################################"
