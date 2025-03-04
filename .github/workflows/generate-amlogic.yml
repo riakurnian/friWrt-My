@@ -230,6 +230,11 @@ jobs:
           bash scripts/agh-core.sh
           bash scripts/builder-patch.sh
           bash scripts/misc.sh
+          echo "VPN Client: $TUNNEL"
+          bash scripts/tunnel_app.sh $TUNNEL
+          if [ "$TUNNEL" = "openclash" ] || [ "$TUNNEL" = "neko-openclash-passwall" ]; then bash scripts/clash-core.sh; fi
+          if [ "$TUNNEL" = "neko" ] || [ "$TUNNEL" = "neko-openclash-passwall" ]; then bash scripts/neko_core.sh; fi
+          if [ "$TUNNEL" = "neko-openclash-passwall" ]; then bash scripts/clash-core.sh; bash scripts/neko_core.sh; fi
           echo "Total custom packages: $(find packages -type f -name "*.ipk" | wc -l)"
           ls packages
           echo "status=success" >> $GITHUB_OUTPUT
