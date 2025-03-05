@@ -30,7 +30,7 @@
         #"luci-proto-mbim|https://downloads.openwrt.org/snapshots/packages/$ARCH_3/luci"
         #"luci-proto-modemmanager|https://downloads.openwrt.org/snapshots/packages/$ARCH_3/luci"
         #"modemmanager|https://downloads.openwrt.org/snapshots/packages/$ARCH_3/packages"
-        #"sms-tool|https://downloads.openwrt.org/releases/packages-24.10/$ARCH_3/packages"
+        "sms-tool|https://downloads.openwrt.org/releases/packages-24.10/$ARCH_3/packages"
     )
 
     echo "###########################################################"
