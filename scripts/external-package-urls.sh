@@ -19,7 +19,7 @@
         "luci-app-netspeedtest|https://fantastic-packages.github.io/packages/releases/$(echo "$BRANCH" | cut -d'.' -f1-2)/packages/$ARCH_3/luci"
         "luci-app-ramfree|https://downloads.staging.immortalwrt.org/snapshots/packages/$ARCH_3/luci"
         "luci-app-temp-status|https://fantastic-packages.github.io/packages/releases/$(echo "$BRANCH" | cut -d'.' -f1-2)/packages/$ARCH_3/luci"
-        "luci-proto-mbim|https://downloads.openwrt.org/releases/packages-24.10/$ARCH_3/luci"
+        #"luci-proto-mbim|https://downloads.openwrt.org/releases/packages-24.10/$ARCH_3/luci"
         #"luci-proto-modemmanager|https://downloads.openwrt.org/releases/packages-24.10/$ARCH_3/luci"
         "luci-theme-argon|https://fantastic-packages.github.io/packages/releases/$(echo "$BRANCH" | cut -d'.' -f1-2)/packages/$ARCH_3/luci"
         #"modemmanager|https://downloads.openwrt.org/releases/packages-24.10/$ARCH_3/packages"
